@@ -1,15 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
-
-interface User {
-  email: string;
-  username: string;
-}
-
-interface AuthContextType {
-  user: User | null;
-  login: (email: string, username?: string) => void;
-  logout: () => void;
-}
+import { User, AuthContextType } from '../types/index';
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
@@ -21,7 +11,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
 
   const login = (email: string, username?: string) => {
-    // omogucava stvaranje username-a od prvog dijela emaila
+    // stvaranje username-a od prvog dijela emaila
     const generatedUsername = username || email.split('@')[0];
     setUser({ email, username: generatedUsername });
   };

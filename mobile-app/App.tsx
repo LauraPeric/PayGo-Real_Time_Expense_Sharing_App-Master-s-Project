@@ -6,9 +6,13 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 
 import { AuthProvider, useAuth } from './src/context/AuthContext';
+import { TripsProvider } from './src/context/TripsContext';
 import WelcomeScreen from './src/screens/WelcomeScreen';
 import AuthScreen from './src/screens/AuthScreen';
 import MainTabNavigator from './src/navigation/MainTabNavigator';
+import TripDetailsScreen from './src/screens/TripDetailsScreen';
+import AddMembersScreen from './src/screens/AddMembersScreen';
+import GroupSettingsScreen from './src/screens/GroupSettingsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,7 +40,12 @@ function RootNavigator() {
   return (
     <NavigationContainer>
       {user ? (
-        <MainTabNavigator />
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="MainTabs" component={MainTabNavigator} />
+          <Stack.Screen name="AddMembers" component={AddMembersScreen} />
+          <Stack.Screen name="TripDetails" component={TripDetailsScreen} />
+          <Stack.Screen name="GroupSettings" component={GroupSettingsScreen} />
+        </Stack.Navigator>
       ) : (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
@@ -51,8 +60,10 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <StatusBar style="dark" />
-        <RootNavigator />
+        <TripsProvider>
+          <StatusBar style="dark" />
+          <RootNavigator />
+        </TripsProvider>
       </AuthProvider>
     </SafeAreaProvider>
   );
